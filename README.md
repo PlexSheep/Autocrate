@@ -1,16 +1,88 @@
-# autocrate
+# Autocrate
 
 ![logo](data/media/autocrate.jpeg)
 
-Release Manager for Your Projects on Gitea, GitHub, and GitLab
+**Disclaimer**: I've generated the Readme and logo with the help of so called AI
+tools and modified them afterwards.
 
-## Purpose
-Releasing my cargo workspaces was tedious, so I decided to create a project
-that would help me with that. It should create a release with on the git server,
-run whatever scripts specified by the maintainers, perhaps integrate with CI/CD,
-and upload compiled and otherwise generated artifacts.
+Autocrate simplifies the creation and maintenance of releases for your Rust
+projects hosted on Gitea servers. By providing essential functionalities
+like uploading artifacts, publishing crates, and managing changelogs,
+Autocrate streamlines the release process, allowing developers to focus on
+their work. Although initially built for Gitea, we plan to extend support
+for additional platforms such as GitHub and GitLab.
 
-For Rust projects specifically, it should generate binaries and upload them to
-the release of the git server. It should also provide the option to generate
-the documentation and deploy it to a specified location. (The documentation of
-published crates is automatically available on [docs.rs](https://docs.rs)).
+![Project badge](https://img.shields.io/badge/language-Rust-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+
+## Features
+
+* Create and update releases on your Gitea server
+* Publish crates to Cargo.rs
+or other repositories directly from your Rust projects
+* Upload artifacts, including documentation and binaries, alongside your releases
+* Generate and maintain changelogs and release notes.
+
+### Upcoming Features
+
+My goal is to continuously enhance Autocrate to better serve the developer
+community. Some planned improvements include supporting other popular hosting
+platforms, enabling even greater flexibility and convenience.
+
+## Getting Started
+
+Before getting started with Autocrate, make sure you have the necessary
+prerequisites covered:
+
+* **A Rust Environment**: Install the latest stable Rust compiler and
+associated tools via the official website: <https://www.rust-lang.org/>
+* **Access to a Gitea Server** (such as [git.cscherr.de](https://git.cscherr.de)
+and [codeberg.org](https://codeberg.org) (strictly speaking, uses a Gitea fork)
+
+### Installing
+
+Once the above pre-requisites are met, begin setting up Autocrate by running
+the following command in your terminal:
+
+``` $ cargo install autocrate ```
+
+This command downloads from [crates.io](https://crates.io) and compiles Autocrate
+locally, making it readily accessible through your command line interfaces.
+
+### Configuring Autocrate
+
+Create a TOML file named `.autocrate.yaml` in the root of your Git repository.
+It should contain the following parameters (replace the placeholders):
+
+| Parent  | Key          | Value                                                                            | Explanation                                                                  |
+|---------|--------------|----------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| (root)  | `git-log`    | `true`/`false`                                                                   | should a changelog be generated with `git log`?                              |
+| (root)  | `uses`       | keys with this as parent (f.e. `cargo`                                           | Marks features to be used by Autocrate                                       |
+| `uses`  | `cargo`      | tells us that your project uses cargo                                            | tells us that your project uses cargo                                        |
+| `cargo` | `publish`    | `true`/`false`                                                                   | should we publish crates?                                                    |
+| `cargo` | `registries` | registries see [this](https://doc.rust-lang.org/cargo/reference/registries.html) | A list of registries we should publish to. If empty defaults to `crates.io`. |
+
+## Using Autocrate
+
+Navigate to your desired Rust project location and execute Autocrate commands
+as shown below:
+
+```sh # Display supported commands $ autocrate help
+
+# Other example commands $ autocrate init          # Initialise a fresh
+release $ autocrate bump         # Increase release version number $ autocrate
+publish       # Build and distribute the release ```
+
+Please consult the `docs` folder inside the repository for detailed
+explanations, tutorials, and advanced configurations.
+
+## Licensing
+
+Autocrate is free software.
+
+The Autocrate project is distributed under the terms of the permissive MIT
+License. Please refer to [`LICENSE`](./LICENSE) for complete licensing details.
+
+## Project status
+
+The project has started recently and is currently in pre-alpha.
