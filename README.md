@@ -59,16 +59,44 @@ locally, making it readily accessible through your command line interfaces.
 
 ### Configuring Autocrate
 
-Create a TOML file named `.autocrate.yaml` in the root of your Git repository.
-It should contain the following parameters (replace the placeholders):
+Create a YAML file named `.autocrate.yml` (or `.yaml`) in the root of your Git
+repository. It should contain the following parameters (replace the placeholders):
 
-| Parent  | Key          | Value                                                                            | Explanation                                                                  |
-|---------|--------------|----------------------------------------------------------------------------------|------------------------------------------------------------------------------|
-| (root)  | `git-log`    | `true`/`false`                                                                   | should a changelog be generated with `git log`?                              |
-| (root)  | `uses`       | keys with this as parent (f.e. `cargo`                                           | Marks features to be used by Autocrate                                       |
-| `uses`  | `cargo`      | tells us that your project uses cargo                                            | tells us that your project uses cargo                                        |
-| `cargo` | `publish`    | `true`/`false`                                                                   | should we publish crates?                                                    |
-| `cargo` | `registries` | registries see [this](https://doc.rust-lang.org/cargo/reference/registries.html) | A list of registries we should publish to. If empty defaults to `crates.io`. |
+| Parent          | Key          | Value                                                                            | Explanation                                                                  |
+|-----------------|--------------|----------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| (root)          | `changelog`  | list of keys with this as parent (`git-log` etc)                                 | information on how a changelog is generated                                  |
+| `changelog`     | `enable`     | `true`/`false`                                                                   | If false, no changelog will be generated                                     |
+| `changelog`     | `git-log`    | `true`/`false`                                                                   | should a changelog be generated with `git log`?                              |
+| (root)          | `uses`       | list of keys with this as parent (`cargo` etc)                                   | Marks features to be used by Autocrate                                       |
+| `uses`          | `cargo`      | list of keys with this as parent (`publish` etc)                                 | tells us that your project uses cargo                                        |
+| `cargo`         | `publish`    | `true`/`false`                                                                   | should we publish crates?                                                    |
+| `cargo`         | `registries` | registries see [this](https://doc.rust-lang.org/cargo/reference/registries.html) | A list of registries we should publish to. If empty defaults to `crates.io`. |
+| (root)          | `api`        | list of names, which each have the same keys                                     | defines the api we talk to                                                   |
+| `api.NAME`      | `type`       | one of `gitea`,`github`,`gitlab` (currently only support for `gitea`             | Let's us know which api type we are talking to                               |
+| `api.NAME`      | `endpoint`   | Base URL of the target server                                                    | Let's us know which api type we are talking to                               |
+| `api.NAME`      | `auth`       | list of keys with this as parent (`user` and `pass`)                             | We probably need authentication on the target server                         |
+| `api.NAME.auth` | `user`       | a string                                                                         | Which user should we try to authenticate as                                  |
+| `api.NAME.auth` | `pass`       | a string                                                                         | A secret for authentication o the server, probably a token                   |
+
+An example `.autocrate.yaml` could look like this:
+```yaml
+changelog:
+- enable: true
+- git-log: true
+
+uses:
+- cargo:
+  - publish = true
+  # tokens are loaded from ~/.cargo/config.toml
+  - registries:
+    - crates.io
+    - example.com
+
+api:
+  github:
+    user: myUserName
+    pass: token_superimportantsecret
+```
 
 ## Using Autocrate
 
