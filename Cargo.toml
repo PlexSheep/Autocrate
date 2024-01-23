@@ -1,28 +1,20 @@
 [package]
 name = "autocrate"
-version = "0.1.0"
+version = "0.1.0-prealpha.0"
 edition = "2021"
-publish = false
+publish = true
 authors = ["Christoph J. Scherr <software@cscherr.de>"]
-license = "GPL-3"
+license = "GPL-3.0-or-later"
 description = "Release Manager for Your Projects on Gitea, GitHub, and GitLab"
 readme = "README.md"
 homepage = "https://git.cscherr.de/PlexSheep/autocrate"
 repository = "https://git.cscherr.de/PlexSheep/autocrate"
 categories = ["command-line-utilities", "development-tools"]
 keywords = [
-  "ci",
-  "cd",
-  "continuous-integration",
   "continuous-delivery",
   "workflow-automation",
-  "build-tool",
-  "version-control",
   "gitea",
-  "github",
-  "gitlab",
   "changelog",
-  "release-notes",
   "automated-builds",
 ]
 
