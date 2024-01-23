@@ -13,7 +13,7 @@ their work. Although initially built for Gitea, we plan to extend support
 for additional platforms such as GitHub and GitLab.
 
 ![Project badge](https://img.shields.io/badge/language-Rust-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+![License](https://img.shields.io/badge/license-GPL-3-green.svg)
 
 ## Features
 
@@ -64,23 +64,13 @@ It should contain the following parameters (replace the placeholders):
 
 ## Using Autocrate
 
-Navigate to your desired Rust project location and execute Autocrate commands
-as shown below:
-
-```sh # Display supported commands $ autocrate help
-
-# Other example commands $ autocrate init          # Initialise a fresh
-release $ autocrate bump         # Increase release version number $ autocrate
-publish       # Build and distribute the release ```
-
-Please consult the `docs` folder inside the repository for detailed
-explanations, tutorials, and advanced configurations.
+TBD
 
 ## Licensing
 
 Autocrate is free software.
 
-The Autocrate project is distributed under the terms of the permissive MIT
+The Autocrate project is distributed under the terms of the GPL-3
 License. Please refer to [`LICENSE`](./LICENSE) for complete licensing details.
 
 ## Project status
