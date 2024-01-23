@@ -1,5 +1,11 @@
 # Autocrate
 
+![Project badge](https://img.shields.io/badge/language-Rust-blue.svg)
+![Crates.io License](https://img.shields.io/crates/l/autocrate)
+![Gitea Release](https://img.shields.io/gitea/v/release/PlexSheep/autocrate?gitea_url=https%3A%2F%2Fgit.cscherr.de)
+![Gitea language count](https://img.shields.io/gitea/languages/count/PlexSheep/autocrate?gitea_url=https%3A%2F%2Fgit.cscherr.de)
+[![cargo checks and tests](https://github.com/PlexSheep/Autocrate/actions/workflows/cargo.yaml/badge.svg)](https://github.com/PlexSheep/Autocrate/actions/workflows/cargo.yaml)
+
 ![logo](data/media/autocrate.jpeg)
 
 **Disclaimer**: I've generated the Readme and logo with the help of so called AI
@@ -12,11 +18,6 @@ Autocrate streamlines the release process, allowing developers to focus on
 their work. Although initially built for Gitea, we plan to extend support
 for additional platforms such as GitHub and GitLab.
 
-![Project badge](https://img.shields.io/badge/language-Rust-blue.svg)
-![Crates.io License](https://img.shields.io/crates/l/autocrate)
-![Gitea Release](https://img.shields.io/gitea/v/release/PlexSheep/autocrate?gitea_url=https%3A%2F%2Fgit.cscherr.de)
-![Gitea language count](https://img.shields.io/gitea/languages/count/PlexSheep/autocrate?gitea_url=https%3A%2F%2Fgit.cscherr.de)
-[![cargo devel CI](https://github.com/PlexSheep/Autocrate/actions/workflows/cargo.yaml/badge.svg)](https://github.com/PlexSheep/Autocrate/actions/workflows/cargo.yaml)
 
 * [Original Repository](https://git.cscherr.de/PlexSheep/Autocrate)
 * [GitHub Mirror](https://github.com/PlexSheep/Autocrate)
@@ -83,3 +84,12 @@ License. Please refer to [`LICENSE`](./LICENSE) for complete licensing details.
 ## Project status
 
 The project has started recently and is currently in pre-alpha.
+
+## Contributing
+
+I'd be very happy to get contributions! Although the master repository is on
+my self hosted git server, you're free to create issues, PRs and so on on
+GitHub. If enough activity comes around, moving to GitHub might be a good idea.
+
+If you have any questions, use issues and discussions tabs or write me an email
+to [software@cscherr.de](mailto:software@cscherr.de)
