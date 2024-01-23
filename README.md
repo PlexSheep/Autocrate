@@ -16,8 +16,10 @@ for additional platforms such as GitHub and GitLab.
 ![Crates.io License](https://img.shields.io/crates/l/autocrate)
 ![Gitea Release](https://img.shields.io/gitea/v/release/PlexSheep/autocrate?gitea_url=https%3A%2F%2Fgit.cscherr.de)
 ![Gitea language count](https://img.shields.io/gitea/languages/count/PlexSheep/autocrate?gitea_url=https%3A%2F%2Fgit.cscherr.de)
+[![cargo devel CI](https://github.com/PlexSheep/Autocrate/actions/workflows/cargo.yaml/badge.svg)](https://github.com/PlexSheep/Autocrate/actions/workflows/cargo.yaml)
 
-[GitHub Mirror](https://github.com/PlexSheep/Autocrate)
+* [Original Repository](https://git.cscherr.de/PlexSheep/Autocrate)
+* [GitHub Mirror](https://github.com/PlexSheep/Autocrate)
 
 
 ## Features
