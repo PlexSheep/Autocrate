@@ -21,6 +21,8 @@ for additional platforms such as GitHub and GitLab.
 
 * [Original Repository](https://git.cscherr.de/PlexSheep/Autocrate)
 * [GitHub Mirror](https://github.com/PlexSheep/Autocrate)
+* [crates.io](https://crates.io/crates/autocrate)
+* [docs.rs](https://docs.rs/crate/autocrate/)
 
 Take a look at the [scripts](./scripts) directory! [publish.sh](scripts/publish.sh)
 and [release.sh](scripts/release.sh) are exactly what I'm trying to get rid of.
