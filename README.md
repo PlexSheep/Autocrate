@@ -13,7 +13,11 @@ their work. Although initially built for Gitea, we plan to extend support
 for additional platforms such as GitHub and GitLab.
 
 ![Project badge](https://img.shields.io/badge/language-Rust-blue.svg)
-![License](https://img.shields.io/badge/license-GPL-3-green.svg)
+![Crates.io License](https://img.shields.io/crates/l/autocrate)
+![Gitea Release](https://img.shields.io/gitea/v/release/PlexSheep/autocrate?gitea_url=https%3A%2F%2Fgit.cscherr.de)
+![Gitea language count](https://img.shields.io/gitea/languages/count/PlexSheep/autocrate?gitea_url=https%3A%2F%2Fgit.cscherr.de)
+
+
 
 ## Features
 
