@@ -1,0 +1,25 @@
+changelog:
+  enable: true
+  git-log: true
+
+uses:
+  cargo:
+    publish: true
+  # tokens are loaded from ~/.cargo/config.toml
+    registries:
+    - crates.io
+    - example.com
+
+api:
+  github:
+    type: github
+    endpoint: https://github.com
+    auth:
+      user: myUserName
+      pass: token_superimportantsecret
+  myserv:
+    type: gitea
+    endpoint: https://git.example.com
+    auth:
+      user: myUserName
+      pass: importantsecrettoken

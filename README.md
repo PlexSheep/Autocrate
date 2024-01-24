@@ -85,21 +85,30 @@ repository. It should contain the following parameters (replace the placeholders
 An example `.autocrate.yaml` could look like this:
 ```yaml
 changelog:
-- enable: true
-- git-log: true
+  enable: true
+  git-log: true
 
 uses:
-- cargo:
-  - publish = true
+  cargo:
+    publish: true
   # tokens are loaded from ~/.cargo/config.toml
-  - registries:
+    registries:
     - crates.io
     - example.com
 
 api:
   github:
-    user: myUserName
-    pass: token_superimportantsecret
+    type: github
+    endpoint: https://github.com
+    auth:
+      user: myUserName
+      pass: token_superimportantsecret
+  myserv:
+    type: gitea
+    endpoint: https://git.example.com
+    auth:
+      user: myUserName
+      pass: importantsecrettoken
 ```
 
 ## Using Autocrate
