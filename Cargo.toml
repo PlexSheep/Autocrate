@@ -20,6 +20,17 @@ keywords = [
 
 
 [dependencies]
+clap = { version = "4.4.18", features = ["derive"] }
+clap-num = "1.1.1"
+clap-verbosity-flag = "2.1.2"
 libpt = { version = "0.3.11", features = ["log"] }
 serde = { version = "1.0.195", features = ["derive"] }
 serde_yaml = "0.9.30"
+
+[[bin]]
+name = "autocrate"
+path = "src/main.rs"
+
+[lib]
+name = "autocrate"
+path = "src/lib.rs"
