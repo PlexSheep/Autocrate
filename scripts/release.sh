@@ -2,7 +2,7 @@
 TOKEN=$(cat ~/.git-credentials | grep 'git.cscherr.de' | grep -P '(?:)[^:]*(?=@)' -o)
 NEW_VERSION=$(cat Cargo.toml | rg '^\s*version\s*=\s*"([^"]*)"\s*$' -or '$1')
 GIT_COMMIT_SHA=$(git rev-parse HEAD)
-REPO=autocrate
+REPO=${PWD##*/} # name of cwd
 BODY="
 $(git log $(git describe --tags --abbrev=0)..HEAD --pretty="- %s" --oneline --decorate)
 "
