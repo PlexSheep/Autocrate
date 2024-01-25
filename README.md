@@ -68,9 +68,9 @@ repository. It should contain the following parameters (replace the placeholders
 
 | Parent          | Key          | Value                                                                            | Explanation                                                                  |
 |-----------------|--------------|----------------------------------------------------------------------------------|------------------------------------------------------------------------------|
-| (root)          | `changelog`  | list of keys with this as parent (`git_log` etc)                                 | information on how a changelog is generated                                  |
+| (root)          | `changelog`  | list of keys with this as parent (`git-log` etc)                                 | information on how a changelog is generated                                  |
 | `changelog`     | `enable`     | `true`/`false`                                                                   | If false, no changelog will be generated                                     |
-| `changelog`     | `git_log`    | `true`/`false`                                                                   | should a changelog be generated with `git log`?                              |
+| `changelog`     | `git-log`    | `true`/`false`                                                                   | should a changelog be generated with `git log`?                              |
 | (root)          | `uses`       | list of keys with this as parent (`cargo` etc)                                   | Marks features to be used by Autocrate                                       |
 | `uses`          | `cargo`      | list of keys with this as parent (`publish` etc)                                 | tells us that your project uses cargo                                        |
 | `cargo`         | `publish`    | `true`/`false`                                                                   | should we publish crates?                                                    |
@@ -86,7 +86,7 @@ An example `.autocrate.yaml` could look like this:
 ```yaml
 changelog:
   enable: true
-  git_log: true
+  git-log: true
 
 uses:
   cargo:

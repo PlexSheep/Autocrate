@@ -13,6 +13,7 @@ use cli::Cli;
 #[derive(Debug, Clone, Deserialize)]
 pub struct Changelog {
     enable: bool,
+    #[serde(alias="git-log")]
     git_log: bool,
 }
 
