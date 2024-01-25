@@ -9,6 +9,5 @@ fn main() -> Result<()> {
     let cli = Cli::cli_parse();
     let config = Config::load(cli.clone())?;
 
-    trace!("loaded config:\n{:#?}", config.yaml);
     todo!()
 }
