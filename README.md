@@ -93,23 +93,27 @@ uses:
     publish: true
   # tokens are loaded from ~/.cargo/config.toml
     registries:
-    - crates.io
-    - example.com
+    - default
+    - cscherr
 
 api:
   github:
     type: github
     endpoint: https://github.com
     auth:
-      user: myUserName
+      user: PlexSheep
       pass: token_superimportantsecret
-  myserv:
+  cscherr:
     type: gitea
-    endpoint: https://git.example.com
+    endpoint: https://git.cscherr.de
     auth:
-      user: myUserName
-      pass: importantsecrettoken
+      user: PlexSheep
+      pass: Bearer importantsecrettoken
 ```
+
+After Autocrate has been bootstrapped, you it will be released and published
+with itself, so you can take a look at this repositories
+[`.autocrate.yaml`](./.autocrate.yaml).
 
 ## Using Autocrate
 
