@@ -29,6 +29,7 @@ libpt = { version = "0.3.11", features = ["log"] }
 serde = { version = "1.0.195", features = ["derive"] }
 serde_yaml = "0.9.30"
 thiserror = "1.0.56"
+url = { version = "2.5.0", features = ["serde"] }
 
 [[bin]]
 name = "autocrate"

@@ -1,6 +1,6 @@
 changelog:
   enable: true
-  git-log: true
+  git_log: true
 
 uses:
   cargo:

@@ -1,19 +1,20 @@
 use std::{
-    fmt::{write, Debug}, fs::File, path::PathBuf
+    collections::HashMap, fmt::Debug, fs::File, io::BufReader, path::PathBuf
 };
 
-use anyhow::{anyhow, Result};
 use git2;
 use libpt::log::error;
 use serde::Deserialize;
+use url::Url;
 
-use self::cli::Cli;
+use crate::error::*;
 
 pub mod cli;
+use cli::Cli;
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Changelog {
-    enabled: bool,
+    enable: bool,
     git_log: bool,
 }
 
@@ -29,16 +30,22 @@ pub struct Cargo {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+pub struct ApiAuth { user: String, pass: String }
+
+#[derive(Debug, Clone, Deserialize)]
 pub struct Api {
-    api_type: ApiType,
-    publish: bool,
-    registries: Vec<String>,
+    r#type: ApiType,
+    endpoint: Url,
+    auth: ApiAuth,
 }
 
 #[derive(Debug, Clone, Deserialize)]
 pub enum ApiType {
+    #[serde(alias="gitea")]
     Gitea,
+    #[serde(alias="gitlab")]
     Gitlab,
+    #[serde(alias="github", alias="GitHub")]
     Github,
 }
 
@@ -46,7 +53,7 @@ pub enum ApiType {
 pub struct YamlConfig {
     pub changelog: Changelog,
     pub uses: Uses,
-    pub apis: Vec<Api>,
+    pub api: HashMap<String,Api>,
 }
 
 pub struct Config {
@@ -73,14 +80,35 @@ impl Config {
         let repo = match git2::Repository::open_from_env() {
             Ok(repo) => repo,
             Err(err) => {
-                let msg = format!("could not find a git repository: {err:?}");
-                error!("{}", msg);
-                return Err(anyhow!(msg));
+                let err = Error::GitRepoNotFound;
+                error!("{err}");
+                return Err(err);
             }
         };
         let mut path = repo.path().to_path_buf();
         path.pop(); // we want the real root, not the `.git` dir
 
-        todo!()
+        let yaml_file_name = if path.join(".autocrate.yaml").exists() {
+            ".autocrate.yaml"
+        } else if path.join(".autocrate.yml").exists() {
+            ".autocrate.yml"
+        } else {
+            let err = Error::NoYamlFile;
+            error!("{err}");
+            return Err(err);
+        };
+        let yaml_file_path = path.join(yaml_file_name);
+        // we can be sure it exists from the checks above
+        assert!(yaml_file_path.exists());
+        if !yaml_file_path.is_file() {
+            let err = Error::YamlFileIsNotFile;
+            error!("{err}");
+            return Err(err);
+        }
+
+        let yaml_rd = BufReader::new(File::open(yaml_file_path)?);
+        let yaml: YamlConfig = serde_yaml::from_reader(yaml_rd)?;
+
+        Ok(Config { yaml, repo, path })
     }
 }
