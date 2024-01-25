@@ -13,7 +13,7 @@ use cli::Cli;
 #[derive(Debug, Clone, Deserialize)]
 pub struct Changelog {
     enable: bool,
-    #[serde(alias="git-log")]
+    #[serde(alias = "git-log")]
     git_log: bool,
 }
 
@@ -110,10 +110,10 @@ impl Debug for Config {
 }
 
 impl Config {
-    pub fn load(cli: Cli) -> Result<Self> {
+    pub fn load(_cli: Cli) -> Result<Self> {
         let repo = match git2::Repository::open_from_env() {
             Ok(repo) => repo,
-            Err(err) => {
+            Err(_err) => {
                 let err = ConfigError::GitRepoNotFound.into();
                 error!("{err}");
                 return Err(err);
