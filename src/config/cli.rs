@@ -37,7 +37,8 @@ pub struct Cli {
 
 #[derive(Debug, Clone, Subcommand)]
 pub enum Commands {
-    Changelog {
+    Changelog {},
+    Release {
         // FIXME: allow taking a message like this:
         // `autocrate changelog -m arg1 arg2 arg3`
         // -> msg="arg1 arg2 arg3"
@@ -48,6 +49,14 @@ pub enum Commands {
         // TODO:
         // Perhaps open the $EDITOR of the user if
         // no message is provided, like git does
+        //
+        // TODO:
+        // find a way to make this a global option but only usable with specific subcommands
+        #[arg(short, long)]
+        message: Option<Vec<String>>,
+    },
+    Publish {
+        // see Commands::Release { message }
         #[arg(short, long)]
         message: Option<Vec<String>>,
     },
@@ -60,6 +69,8 @@ impl Display for Commands {
             "{}",
             match self {
                 Self::Changelog { .. } => "Changelog",
+                Self::Release { .. } => "Release",
+                Self::Publish { .. } => "Publish",
             }
         )
     }

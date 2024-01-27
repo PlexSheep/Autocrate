@@ -16,5 +16,11 @@ fn main() -> Result<()> {
             println!("{}", Changelog::build(&cfg)?.to_string());
             Ok(())
         }
+        Commands::Release { .. } => {
+            todo!()
+        }
+        Commands::Publish { .. } => {
+            todo!()
+        }
     }
 }

@@ -28,8 +28,8 @@ impl YamlConfigSection for Changelog {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct UseCargo {
-    publish: bool,
-    registries: Vec<String>,
+    pub publish: bool,
+    pub registries: Vec<String>,
 }
 impl YamlConfigSection for UseCargo {
     fn check(&self) -> Result<()> {
