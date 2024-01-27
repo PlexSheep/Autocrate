@@ -1,9 +1,6 @@
 use std::fmt::Display;
 
-use crate::{
-    config::{cli::Commands, Config},
-    error::*,
-};
+use crate::{config::Config, error::*};
 
 /// Represents a changelog that is currently under construction.
 #[derive(Clone, Debug)]
