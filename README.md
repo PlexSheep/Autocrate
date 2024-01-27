@@ -18,7 +18,6 @@ Autocrate streamlines the release process, allowing developers to focus on
 their work. Although initially built for Gitea, we plan to extend support
 for additional platforms such as GitHub and GitLab.
 
-
 * [Original Repository](https://git.cscherr.de/PlexSheep/Autocrate)
 * [GitHub Mirror](https://github.com/PlexSheep/Autocrate)
 * [crates.io](https://crates.io/crates/autocrate)
@@ -83,6 +82,7 @@ repository. It should contain the following parameters (replace the placeholders
 | `api.NAME.auth` | `pass`       | a string                                                                         | A secret for authentication o the server, probably a token                   |
 
 An example `.autocrate.yaml` could look like this:
+
 ```yaml
 changelog:
   enable: true

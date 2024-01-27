@@ -1,12 +1,20 @@
-use anyhow::Result;
-
-mod config;
-mod error;
-use config::{cli::Cli, Config};
+use autocrate::{
+    changelog::*,
+    config::{
+        cli::{Cli, Commands},
+        Config,
+    },
+    error::*,
+};
 
 fn main() -> Result<()> {
     let cli = Cli::cli_parse();
-    let _config = Config::load(cli.clone())?;
+    let cfg = Config::load(cli.clone())?;
 
-    todo!()
+    match cli.command {
+        Commands::Changelog { .. } => {
+            println!("{}", Changelog::build(&cfg)?.to_string());
+            Ok(())
+        }
+    }
 }

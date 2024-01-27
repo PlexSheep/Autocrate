@@ -1,3 +1,4 @@
+---
 changelog:
   enable: true
   git-log: true
@@ -5,10 +6,10 @@ changelog:
 uses:
   cargo:
     publish: true
-  # tokens are loaded from ~/.cargo/config.toml
+    # tokens are loaded from ~/.cargo/config.toml
     registries:
-    - crates.io
-    - example.com
+      - crates.io
+      - cscherr
 
 api:
   github:
@@ -19,7 +20,7 @@ api:
       pass: token_superimportantsecret
   myserv:
     type: gitea
-    endpoint: https://git.example.com
+    endpoint: https://git.cscherr.de
     auth:
       user: myUserName
       pass: importantsecrettoken

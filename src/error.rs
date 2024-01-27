@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use anyhow;
 use thiserror::Error;
 
@@ -28,4 +30,8 @@ pub enum ConfigError {
     YamlFileIsNotFile,
     #[error("api {0:?} provides both a `pass` and a `pass_file`")]
     YamlApiAuthBothPass(ApiAuth),
+    #[error("{0} has 'enabled = false' in the yaml config")]
+    IsDisabledButUsed(&'static str),
+    #[error("password provided as file, but does not exist: {0}")]
+    PassFileDoesNotExist(PathBuf),
 }

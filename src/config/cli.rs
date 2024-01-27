@@ -1,39 +1,68 @@
+use std::fmt::Display;
+
 use libpt::log::{Level, Logger};
 
-use clap::Parser;
+use clap::{Parser, Subcommand};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
-
-/// short about section displayed in help
-const ABOUT_ROOT: &'static str = r##"
-Release Manager for Your Projects on Gitea, GitHub, and GitLab.
-"##;
-/// longer about section displayed in help, is combined with [the short help](ABOUT_ROOT)
-static LONG_ABOUT_ROOT: &'static str = r##""##;
 
 #[derive(Debug, Clone, Parser)]
 #[command(
     author,
     version,
-    about = ABOUT_ROOT,
-    long_about = format!("{}{}", ABOUT_ROOT ,LONG_ABOUT_ROOT),
-    help_template =
-r#"{about-section}
+    about,
+    long_about,
+    help_template = r#"{about-section}
 {usage-heading} {usage}
 {all-args}{tab}
 
 autocrate: {version}
 Author: {author-with-newline}
 "#
-    )]
+)]
+/// Release Manager for Your Projects on Gitea, GitHub, and GitLab.
 pub struct Cli {
     // clap_verbosity_flag seems to make this a global option implicitly
     /// set a verbosity, multiple allowed (f.e. -vvv)
     #[command(flatten)]
-    pub(crate) verbose: Verbosity<InfoLevel>,
+    pub verbose: Verbosity<InfoLevel>,
 
     /// show additional logging meta data
     #[arg(long)]
-    pub(crate) meta: bool,
+    pub meta: bool,
+
+    /// the subcommands are part of this enum
+    #[command(subcommand)]
+    pub command: Commands,
+}
+
+#[derive(Debug, Clone, Subcommand)]
+pub enum Commands {
+    Changelog {
+        // FIXME: allow taking a message like this:
+        // `autocrate changelog -m arg1 arg2 arg3`
+        // -> msg="arg1 arg2 arg3"
+        // Instead of only
+        // `autocrate changelog -m "arg1 arg2 arg3"`
+        // -> msg="arg1 arg2 arg3"
+        //
+        // TODO:
+        // Perhaps open the $EDITOR of the user if
+        // no message is provided, like git does
+        #[arg(short, long)]
+        message: Option<Vec<String>>,
+    },
+}
+
+impl Display for Commands {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::Changelog { .. } => "Changelog",
+            }
+        )
+    }
 }
 
 impl Cli {

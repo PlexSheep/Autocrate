@@ -10,37 +10,62 @@ use crate::error::*;
 pub mod cli;
 use cli::Cli;
 
+pub trait YamlConfigSection: Debug + Clone + for<'a> Deserialize<'a> {
+    fn check(&self) -> Result<()>;
+}
+
 #[derive(Debug, Clone, Deserialize)]
 pub struct Changelog {
-    enable: bool,
+    pub enable: bool,
     #[serde(alias = "git-log")]
-    git_log: bool,
+    pub git_log: bool,
+}
+impl YamlConfigSection for Changelog {
+    fn check(&self) -> Result<()> {
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct UseCargo {
+    publish: bool,
+    registries: Vec<String>,
+}
+impl YamlConfigSection for UseCargo {
+    fn check(&self) -> Result<()> {
+        Ok(())
+    }
 }
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Uses {
-    cargo: Option<Cargo>,
+    cargo: UseCargo,
 }
-
-#[derive(Debug, Clone, Deserialize)]
-pub struct Cargo {
-    publish: bool,
-    registries: Vec<String>,
+impl YamlConfigSection for Uses {
+    fn check(&self) -> Result<()> {
+        self.cargo.check()?;
+        Ok(())
+    }
 }
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct ApiAuth {
-    user: String,
-    pass: Option<String>,
-    pass_file: Option<PathBuf>,
+    pub user: String,
+    pub pass: Option<String>,
+    pub pass_file: Option<PathBuf>,
 }
-
-impl ApiAuth {
-    pub fn check(&self) -> Result<()> {
+impl YamlConfigSection for ApiAuth {
+    fn check(&self) -> Result<()> {
         if self.pass.is_some() && self.pass_file.is_some() {
             let err = ConfigError::YamlApiAuthBothPass(self.clone()).into();
             error!("{err}");
             return Err(err);
+        }
+        if self.pass_file.is_some() {
+            let file = self.pass_file.clone().unwrap();
+            if !file.exists() {
+                return Err(ConfigError::PassFileDoesNotExist(file).into());
+            }
         }
         Ok(())
     }
@@ -48,16 +73,21 @@ impl ApiAuth {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Api {
-    r#type: ApiType,
-    endpoint: Url,
+    pub r#type: ApiType,
+    pub endpoint: Url,
     /// May be left empty if the Api does not need auth or the auth is part of the
     /// [endpoint](Api::endpoint) [Url].
-    auth: Option<ApiAuth>,
+    pub auth: Option<ApiAuth>,
 }
-impl Api {
-    pub fn check(&self) -> Result<()> {
-        if let Some(auth) = &self.auth {
-            auth.check()?;
+impl YamlConfigSection for Api {
+    fn check(&self) -> Result<()> {
+        self.r#type.check()?;
+        match self.endpoint.socket_addrs(|| None) {
+            Ok(_) => (),
+            Err(err) => return Err(err.into()),
+        }
+        if self.auth.is_some() {
+            self.auth.clone().unwrap().check()?;
         }
         Ok(())
     }
@@ -72,12 +102,27 @@ pub enum ApiType {
     #[serde(alias = "github", alias = "GitHub")]
     Github,
 }
+impl YamlConfigSection for ApiType {
+    fn check(&self) -> Result<()> {
+        Ok(())
+    }
+}
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct YamlConfig {
     pub changelog: Changelog,
     pub uses: Uses,
     pub api: HashMap<String, Api>,
+}
+impl YamlConfigSection for YamlConfig {
+    fn check(&self) -> Result<()> {
+        self.changelog.check()?;
+        self.uses.check()?;
+        for api in self.api.values() {
+            api.check()?;
+        }
+        Ok(())
+    }
 }
 
 impl YamlConfig {
@@ -92,6 +137,7 @@ impl YamlConfig {
 
 pub struct Config {
     pub yaml: YamlConfig,
+    pub cli: Cli,
     pub repo: git2::Repository,
     pub path: PathBuf,
 }
@@ -110,7 +156,7 @@ impl Debug for Config {
 }
 
 impl Config {
-    pub fn load(_cli: Cli) -> Result<Self> {
+    pub fn load(cli: Cli) -> Result<Self> {
         let repo = match git2::Repository::open_from_env() {
             Ok(repo) => repo,
             Err(_err) => {
@@ -147,6 +193,11 @@ impl Config {
         yaml.check()?;
         debug!("built and checked yaml config");
 
-        Ok(Config { yaml, repo, path })
+        Ok(Config {
+            yaml,
+            repo,
+            path,
+            cli,
+        })
     }
 }
