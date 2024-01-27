@@ -24,10 +24,7 @@ impl Changelog {
             },
         };
         let git_log = Self::make_git_log(cfg)?;
-        Ok(Changelog {
-            message,
-            git_log,
-        })
+        Ok(Changelog { message, git_log })
     }
 
     fn make_git_log(cfg: &Config) -> Result<Option<String>> {
