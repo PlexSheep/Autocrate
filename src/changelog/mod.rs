@@ -22,18 +22,20 @@ impl Changelog {
             return Ok(None);
         }
         let mut cmd = Command::new("git");
-        cmd.arg("log").arg(format!("{}..HEAD", Self::get_last_tag()?,)).arg("--oneline");
+        cmd.arg("log")
+            .arg(format!("{}..HEAD", Self::get_last_tag()?,))
+            .arg("--oneline");
         let out = cmd.output()?;
-        // FIXME: this does not catch fancy colors
-        let buf = String::from_utf8(out.stdout).map_err(|err|{
-            ChangelogError::GitUTF8Error(err)
-        })?;
+        // FIXME: this does not catch fancy colors, those are from the shell as it seems? I don't
+        // get it.
+        let buf = String::from_utf8(out.stdout).map_err(|err| ChangelogError::GitUTF8Error(err))?;
         if !out.status.success() {
-            return Err(
-                ChangelogError::GitBadStatus(out.status, buf).into()
-            )
+            // TODO: get the stderr for error reporting
+            // TODO: Make the error more understandable for the user
+            return Err(ChangelogError::GitBadStatus(out.status, buf).into());
         }
 
+        dbg!(&buf);
         Ok(Some(buf))
     }
 
@@ -41,16 +43,14 @@ impl Changelog {
         let mut cmd = Command::new("git");
         cmd.arg("describe").arg("--tags").arg("--abbrev=0");
         let out = cmd.output()?;
-        let buf = String::from_utf8(out.stdout).map_err(|err|{
-            ChangelogError::GitUTF8Error(err)
-        })?;
+        let buf = String::from_utf8(out.stdout).map_err(|err| ChangelogError::GitUTF8Error(err))?;
         if !out.status.success() {
-            return Err(
-                ChangelogError::GitBadStatus(out.status, buf).into()
-            )
+            // TODO: get the stderr for error reporting
+            // TODO: Make the error more understandable for the user
+            return Err(ChangelogError::GitBadStatus(out.status, buf).into());
         }
         let buf = buf.replace("\n", "");
-        return Ok(buf)
+        return Ok(buf);
     }
 }
 
