@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::{path::PathBuf, string::FromUtf8Error};
 
 use anyhow;
 use thiserror::Error;
@@ -18,8 +18,19 @@ pub enum Error {
     Other(#[from] anyhow::Error),
     #[error("Yaml error")]
     SerdeYaml(#[from] serde_yaml::Error),
+    #[error("Could not generate the changelog")]
+    ChangelogError(#[from] ChangelogError),
 }
 
+#[derive(Error, Debug)]
+pub enum ChangelogError {
+    #[error("changelog has 'enabled = false' in the yaml config")]
+    IsDisabledButUsed,
+    #[error("error while using `git log`, is git installed?")]
+    GitCommandError,
+    #[error("error while using `git log`, could not format stdout with utf8")]
+    GitUTF8Error(#[from] FromUtf8Error),
+}
 #[derive(Error, Debug)]
 pub enum ConfigError {
     #[error("could not find git repository")]
@@ -30,8 +41,6 @@ pub enum ConfigError {
     YamlFileIsNotFile,
     #[error("api {0:?} provides both a `pass` and a `pass_file`")]
     YamlApiAuthBothPass(ApiAuth),
-    #[error("{0} has 'enabled = false' in the yaml config")]
-    IsDisabledButUsed(&'static str),
     #[error("password provided as file, but does not exist: {0}")]
     PassFileDoesNotExist(PathBuf),
 }

@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::{fmt::Display, process::Command};
 
 use crate::{config::Config, error::*};
 
@@ -11,7 +11,7 @@ pub struct Changelog {
 impl Changelog {
     pub fn build(cfg: &Config) -> Result<Self> {
         if !cfg.yaml.changelog.enable {
-            return Err(ConfigError::IsDisabledButUsed("changelog").into());
+            return Err(ChangelogError::IsDisabledButUsed.into());
         }
         let git_log = Self::make_git_log(cfg)?;
         Ok(Changelog { git_log })
@@ -21,7 +21,15 @@ impl Changelog {
         if !cfg.yaml.changelog.enable {
             return Ok(None);
         }
-        Ok(Some(format!("todo")))
+        let mut cmd = Command::new("git");
+        cmd.arg("log").arg("--oneline").arg("--decorate");
+        let out = cmd.output()?;
+        // FIXME: this does not catch fancy colors
+        let buf = String::from_utf8(out.stdout).map_err(|err|{
+            ChangelogError::GitUTF8Error(err)
+        })?;
+
+        Ok(Some(buf))
     }
 }
 
