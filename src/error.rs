@@ -1,4 +1,4 @@
-use std::{path::PathBuf, string::FromUtf8Error};
+use std::{path::PathBuf, process::ExitStatus, string::FromUtf8Error};
 
 use anyhow;
 use thiserror::Error;
@@ -30,6 +30,8 @@ pub enum ChangelogError {
     GitCommandError,
     #[error("error while using `git log`, could not format stdout with utf8")]
     GitUTF8Error(#[from] FromUtf8Error),
+    #[error("git exited with status {0}: {1}")]
+    GitBadStatus(ExitStatus, String),
 }
 #[derive(Error, Debug)]
 pub enum ConfigError {
