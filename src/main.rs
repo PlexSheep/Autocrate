@@ -4,9 +4,9 @@ use autocrate::{
         cli::{Cli, Commands},
         Config,
     },
-    release::release,
-    publish::publish,
     error::*,
+    publish::publish,
+    release::release,
 };
 
 #[tokio::main]

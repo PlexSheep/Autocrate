@@ -1,4 +1,4 @@
 use crate::{config::Config, error::*};
-pub fn publish(cfg: &Config) -> Result<()> {
+pub fn publish(_cfg: &Config) -> Result<()> {
     todo!()
 }
