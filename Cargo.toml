@@ -21,6 +21,7 @@ keywords = [
 
 [dependencies]
 anyhow = "1.0.79"
+async-trait = "0.1.77"
 cargo = "0.76.0"
 clap = { version = "4.4.18", features = ["derive", "help"] }
 clap-verbosity-flag = "2.1.2"
