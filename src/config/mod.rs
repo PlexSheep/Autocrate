@@ -147,7 +147,7 @@ impl Debug for Config {
         write!(
             f,
             "{}",
-            format!(
+            format_args!(
                 "Config {{yaml: {:?}, repo_path: {:?}}}",
                 self.yaml, self.path
             )

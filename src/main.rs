@@ -14,8 +14,7 @@ async fn main() -> Result<()> {
 
     match cli.command {
         Commands::Changelog { .. } => {
-            println!("{}", Changelog::build(&cfg)?.to_string());
-            // Ok(())
+            println!("{}", Changelog::build(&cfg)?);
         }
         Commands::Release { .. } => {
             todo!()
@@ -24,7 +23,5 @@ async fn main() -> Result<()> {
             todo!()
         }
     };
-
-    println!("foo");
     Ok(())
 }

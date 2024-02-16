@@ -95,6 +95,6 @@ impl Cli {
             // less verbose version
             Logger::init_mini(Some(ll)).expect("could not initialize Logger");
         }
-        return cli;
+        cli
     }
 }
