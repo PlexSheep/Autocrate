@@ -13,7 +13,7 @@ fn main() -> Result<()> {
 
     match cli.command {
         Commands::Changelog { .. } => {
-            println!("{}", Changelog::build(&cfg)?.to_string());
+            println!("{}", Changelog::build(&cfg)?);
             Ok(())
         }
         Commands::Release { .. } => {
