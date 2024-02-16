@@ -1,6 +1,6 @@
 [package]
 name = "autocrate"
-version = "0.1.0-prealpha.1"
+version = "0.1.0-prealpha.2"
 edition = "2021"
 publish = true
 authors = ["Christoph J. Scherr <software@cscherr.de>"]
@@ -30,6 +30,7 @@ serde = { version = "1.0.195", features = ["derive"] }
 serde_yaml = "0.9.30"
 tempfile = "3.9.0"
 thiserror = "1.0.56"
+tokio = { version = "1.36.0", features = ["tokio-macros", "rt-multi-thread", "macros"] }
 url = { version = "2.5.0", features = ["serde"] }
 
 [[bin]]

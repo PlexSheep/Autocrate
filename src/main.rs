@@ -7,14 +7,15 @@ use autocrate::{
     error::*,
 };
 
-fn main() -> Result<()> {
+#[tokio::main]
+async fn main() -> Result<()> {
     let cli = Cli::cli_parse();
     let cfg = Config::load(cli.clone())?;
 
     match cli.command {
         Commands::Changelog { .. } => {
             println!("{}", Changelog::build(&cfg)?.to_string());
-            Ok(())
+            // Ok(())
         }
         Commands::Release { .. } => {
             todo!()
@@ -22,5 +23,8 @@ fn main() -> Result<()> {
         Commands::Publish { .. } => {
             todo!()
         }
-    }
+    };
+
+    println!("foo");
+    Ok(())
 }
