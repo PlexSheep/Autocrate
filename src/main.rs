@@ -4,12 +4,10 @@ use autocrate::{
         cli::{Cli, Commands},
         Config,
     },
-    release::release,
-    serverapi::init_servers,
-    publish::publish,
     error::*,
     publish::publish,
     release::release,
+    serverapi::init_servers,
 };
 
 #[tokio::main]
@@ -22,8 +20,8 @@ async fn main() -> Result<()> {
             println!("{}", Changelog::build(&cfg)?);
         }
         Commands::Release { .. } => {
-            init_servers(&cfg).await?;
-            release(&cfg).await?;
+            let mut apis = init_servers(&cfg).await?;
+            release(&cfg, &mut apis).await?;
         }
         Commands::Publish { .. } => {
             publish(&cfg).await?;
