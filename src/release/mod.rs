@@ -1,6 +1,6 @@
-use crate::{config::Config, error::*};
+use crate::{config::Config, error::*, serverapi::ApiCollection};
 
-pub async fn release(cfg: &Config) -> Result<()> {
+pub async fn release(cfg: &Config, apis: ApiCollection) -> Result<()> {
     // TODO: git tag
     // TODO: version bump
     // TODO: version select interactive

@@ -8,6 +8,8 @@ use autocrate::{
     serverapi::init_servers,
     publish::publish,
     error::*,
+    publish::publish,
+    release::release,
 };
 
 #[tokio::main]
