@@ -156,7 +156,7 @@ impl Debug for Config {
 }
 
 impl Config {
-    pub fn load(cli: Cli) -> Result<Self> {
+    pub fn load(cli: &Cli) -> Result<Self> {
         let repo = match git2::Repository::open_from_env() {
             Ok(repo) => repo,
             Err(_err) => {
@@ -197,7 +197,7 @@ impl Config {
             yaml,
             repo,
             path,
-            cli,
+            cli: cli.clone(),
         })
     }
 }
