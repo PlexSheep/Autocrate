@@ -5,6 +5,7 @@ use autocrate::{
         Config,
     },
     release::release,
+    serverapi::init_servers,
     publish::publish,
     error::*,
 };
@@ -19,10 +20,11 @@ async fn main() -> Result<()> {
             println!("{}", Changelog::build(&cfg)?);
         }
         Commands::Release { .. } => {
-            release(&cfg)?;
+            init_servers(&cfg).await?;
+            release(&cfg).await?;
         }
         Commands::Publish { .. } => {
-            publish(&cfg)?;
+            publish(&cfg).await?;
         }
     };
     Ok(())

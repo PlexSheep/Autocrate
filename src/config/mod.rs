@@ -73,7 +73,7 @@ impl YamlConfigSection for ApiAuth {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Api {
-    pub r#type: ApiType,
+    pub server_type: ApiType,
     pub endpoint: Url,
     /// May be left empty if the Api does not need auth or the auth is part of the
     /// [endpoint](Api::endpoint) [Url].
@@ -81,7 +81,7 @@ pub struct Api {
 }
 impl YamlConfigSection for Api {
     fn check(&self) -> Result<()> {
-        self.r#type.check()?;
+        self.server_type.check()?;
         match self.endpoint.socket_addrs(|| None) {
             Ok(_) => (),
             Err(err) => return Err(err.into()),
