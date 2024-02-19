@@ -2,7 +2,7 @@ use async_trait::async_trait;
 
 use super::ServerApi;
 use crate::{
-    config::{ApiType, Config},
+    config::{packages::PackageType, ApiType, Config},
     error::*,
 };
 pub struct Github;
@@ -13,6 +13,9 @@ impl ServerApi for Github {
         todo!()
     }
     async fn push_release(&mut self) -> Result<()> {
+        todo!()
+    }
+    async fn push_pkg(&mut self, pkg_type: PackageType) -> Result<()> {
         todo!()
     }
 }

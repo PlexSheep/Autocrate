@@ -52,6 +52,9 @@ pub enum Commands {
         //
         // TODO:
         // find a way to make this a global option but only usable with specific subcommands
+        //
+        // TODO:
+        // integrate a CHANGELOG.md file
         #[arg(short, long)]
         message: Option<Vec<String>>,
     },
@@ -60,6 +63,7 @@ pub enum Commands {
         #[arg(short, long)]
         message: Option<Vec<String>>,
     },
+    Version {},
 }
 
 impl Display for Commands {
@@ -71,6 +75,7 @@ impl Display for Commands {
                 Self::Changelog { .. } => "Changelog",
                 Self::Release { .. } => "Release",
                 Self::Publish { .. } => "Publish",
+                Self::Version { .. } => "Version",
             }
         )
     }

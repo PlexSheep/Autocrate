@@ -5,10 +5,10 @@ use crate::{
     config::{packages::PackageType, ApiType, Config},
     error::*,
 };
-pub struct Gitlab;
+pub struct Forgejo;
 
 #[async_trait]
-impl ServerApi for Gitlab {
+impl ServerApi for Forgejo {
     async fn init(&mut self, cfg: &Config) -> Result<()> {
         todo!()
     }
@@ -20,7 +20,7 @@ impl ServerApi for Gitlab {
     }
 }
 
-impl Gitlab {
+impl Forgejo {
     pub async fn build(cfg: &Config) -> Result<Self> {
         todo!()
     }

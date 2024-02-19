@@ -26,6 +26,12 @@ async fn main() -> Result<()> {
         Commands::Publish { .. } => {
             publish(&cfg).await?;
         }
+        Commands::Version {} => {
+            // TODO: version bump
+            // TODO: version select interactive
+            // TODO: version select automated
+            todo!()
+        }
     };
     Ok(())
 }

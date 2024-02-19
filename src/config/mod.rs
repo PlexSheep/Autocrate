@@ -8,6 +8,8 @@ use url::Url;
 use crate::error::*;
 
 pub mod cli;
+pub mod packages;
+use packages::*;
 use cli::Cli;
 
 pub trait YamlConfigSection: Debug + Clone + for<'a> Deserialize<'a> {
@@ -101,6 +103,8 @@ pub enum ApiType {
     Gitlab,
     #[serde(alias = "github", alias = "GitHub")]
     Github,
+    #[serde(alias = "forgejo")]
+    Forgejo,
 }
 impl YamlConfigSection for ApiType {
     fn check(&self) -> Result<()> {

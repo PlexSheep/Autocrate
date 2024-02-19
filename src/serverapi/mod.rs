@@ -1,13 +1,15 @@
 use async_trait::async_trait;
 
 use crate::{
-    config::{ApiType, Config},
+    config::{packages::PackageType, ApiType, Config},
     error::*,
 };
 
+pub mod forgejo;
 pub mod gitea;
 pub mod github;
 pub mod gitlab;
+use forgejo::*;
 use gitea::*;
 use github::*;
 use gitlab::*;
@@ -21,6 +23,8 @@ pub type ApiCollection = Vec<Box<dyn ServerApi>>;
 pub trait ServerApi {
     async fn init(&mut self, cfg: &Config) -> Result<()>;
     async fn push_release(&mut self) -> Result<()>;
+    async fn push_release_artifact(&mut self) -> Result<()>;
+    async fn push_pkg(&mut self, pkg_type: PackageType) -> Result<()>;
 }
 
 pub async fn init_servers(cfg: &Config) -> Result<ApiCollection> {
@@ -35,6 +39,9 @@ pub async fn init_servers(cfg: &Config) -> Result<ApiCollection> {
             }
             ApiType::Github => {
                 collection.push(Box::new(Github::build(cfg).await?));
+            }
+            ApiType::Forgejo => {
+                collection.push(Box::new(Forgejo::build(cfg).await?));
             }
         }
     }
