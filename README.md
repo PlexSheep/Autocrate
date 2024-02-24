@@ -8,15 +8,17 @@
 
 ![logo](data/media/autocrate.jpeg)
 
-**Disclaimer**: I've generated the Readme and logo with the help of so called AI
-tools and modified them afterwards.
-
 Autocrate simplifies the creation and maintenance of releases for your Rust
-projects hosted on Gitea servers. By providing essential functionalities
-like uploading artifacts, publishing crates, and managing changelogs,
-Autocrate streamlines the release process, allowing developers to focus on
-their work. Although initially built for Gitea, we plan to extend support
-for additional platforms such as GitHub and GitLab.
+projects hosted on fancy git servers. By providing functionalities
+like creating releases uploading artifacts, publishing crates, and managing changelogs,
+Autocrate tries to streamline the release process. Although initially built for Forgejo,
+I plan to extend support to other platforms such as GitHub and GitLab.
+
+Autocrate can then be used in CI/CD, or in projects without
+continuous integration to release software.
+
+The software is built in Rust, and offers integration for Rust Projects with Cargo.
+In the future, using other tools and specifying custom scripts will become possible.
 
 * [Original Repository](https://git.cscherr.de/PlexSheep/Autocrate)
 * [GitHub Mirror](https://github.com/PlexSheep/Autocrate)
@@ -24,31 +26,46 @@ for additional platforms such as GitHub and GitLab.
 * [docs.rs](https://docs.rs/crate/autocrate/)
 
 Take a look at the [scripts](./scripts) directory! [publish.sh](scripts/publish.sh)
-and [release.sh](scripts/release.sh) are exactly what I'm trying to get rid of.
+and [release.sh](scripts/release.sh) are what I'm trying to get rid of.
 
 ## Features
 
-* Create and update releases on your Gitea server
-* Publish crates to Cargo.rs
-or other repositories directly from your Rust projects
-* Upload artifacts, including documentation and binaries, alongside your releases
-* Generate and maintain changelogs and release notes.
+* Create and update releases on your Git platform
+* Publish crates to crates.io or other repositories
+* Upload artifacts, including binaries and signatures alongside your releases
+* Generate changelogs and release notes
+* Configure with a simple yaml file
 
 ### Upcoming Features
 
-My goal is to continuously enhance Autocrate to better serve the developer
-community. Some planned improvements include supporting other popular hosting
-platforms, enabling even greater flexibility and convenience.
+Autocrate is still in pre-alpha, so the features listed above are still being
+worked on. For the future, the following Features are planned:
+
+* Support for platforms other than Forgejo
+* Custom artifact build scripts
+* Version bumping
+* Interactive and scriptable CLI interface
+* Publish a cargo workspace (that depends on it's own crates)
 
 ## Getting Started
 
 Before getting started with Autocrate, make sure you have the necessary
 prerequisites covered:
 
-* **A Rust Environment**: Install the latest stable Rust compiler and
-associated tools via the official website: <https://www.rust-lang.org/>
-* **Access to a Gitea Server** (such as [git.cscherr.de](https://git.cscherr.de)
-and [codeberg.org](https://codeberg.org) (strictly speaking, uses a Gitea fork)
+You can use `autocrate init` to set your workspace up with a basic
+`.autocrate.yaml`.
+
+* **Access to a supported Git Server** (such as [git.cscherr.de](https://git.cscherr.de)
+and [codeberg.org](https://codeberg.org))
+
+### Pre-requisites
+
+* Git
+
+#### If you want to compile it yourself
+
+Install Rust, the officially recommended way is through [rustup.rs](https://rustup.rs/).
+Your distribution may offer a Rust distribution in your package manager as an alternative
 
 ### Installing
 
@@ -122,7 +139,11 @@ with itself, so you can take a look at this repositories
 
 ## Using Autocrate
 
-TBD
+After you have your workspace with a `.autocrate.yaml` file, you can:
+
+* `autocrapte release` to create a release on your git server(s), optionally publishing too
+* `autocrate publish` to publish your crate to the specified registries(s) (default is crates.io)
+* `autocrate changelog` to generate a changelog since the last tag
 
 ## Licensing
 
@@ -133,13 +154,15 @@ License. Please refer to [`LICENSE`](./LICENSE) for complete licensing details.
 
 ## Project status
 
-The project has started recently and is currently in pre-alpha.
+The project has started recently and is currently in pre-alpha. Many features
+are still missing or experimental
 
 ## Contributing
 
 I'd be very happy to get contributions! Although the master repository is on
 my self hosted git server, you're free to create issues, PRs and so on on
-GitHub. If enough activity comes around, moving to GitHub might be a good idea.
+GitHub. If enough activity comes around, moving to GitHub Codeberg might be a 
+good idea.
 
 If you have any questions, use issues and discussions tabs or write me an email
 to [software@cscherr.de](mailto:software@cscherr.de)
