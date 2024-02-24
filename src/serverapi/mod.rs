@@ -1,13 +1,10 @@
-use std::{
-    ops::{Deref, DerefMut},
-    slice::Iter,
-};
+use std::ops::{Deref, DerefMut};
 
 use async_trait::async_trait;
 use reqwest::ClientBuilder;
 
 use crate::{
-    config::{ApiType, Config, self},
+    config::{self, ApiType, Config},
     error::*,
     publish::PublishContext,
     release::ReleaseContext,
