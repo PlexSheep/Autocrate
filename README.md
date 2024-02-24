@@ -116,7 +116,7 @@ api:
         file: secrettoken.txt
 ```
 
-After Autocrate has been bootstrapped, you it will be released and published
+After Autocrate has been bootstrapped, it will be released and published
 with itself, so you can take a look at this repositories
 [`.autocrate.yaml`](./.autocrate.yaml).
 
