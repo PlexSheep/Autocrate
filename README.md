@@ -21,6 +21,7 @@ The software is built in Rust, and offers integration for Rust Projects with Car
 In the future, using other tools and specifying custom scripts will become possible.
 
 * [Original Repository](https://git.cscherr.de/PlexSheep/Autocrate)
+* [Codeberg Mirror](https://codeberg.org/PlexSheep/autocrate)
 * [GitHub Mirror](https://github.com/PlexSheep/Autocrate)
 * [crates.io](https://crates.io/crates/autocrate)
 * [docs.rs](https://docs.rs/crate/autocrate/)
