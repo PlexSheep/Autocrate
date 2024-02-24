@@ -10,7 +10,6 @@ use crate::error::*;
 pub mod cli;
 pub mod packages;
 use cli::Cli;
-use packages::*;
 
 pub trait YamlConfigSection: Debug + Clone + for<'a> Deserialize<'a> {
     fn check(&self) -> Result<()>;
@@ -65,7 +64,7 @@ impl Pass {
         self.check()?;
         Ok(match self {
             Self::Text(pass) => pass.clone(),
-            Self::Env(key) => std::env::var(key).map_err(|err| ConfigError::from(err))?,
+            Self::Env(key) => std::env::var(key).map_err(ConfigError::from)?,
             Self::File(file) => std::fs::read_to_string(file)?,
         })
     }
@@ -75,10 +74,7 @@ impl YamlConfigSection for Pass {
         match self {
             Self::Text(_) => (),
             Self::Env(envvar) => {
-                if !std::env::var(envvar)
-                    .map_err(ConfigError::from)?
-                    .is_empty()
-                {
+                if !std::env::var(envvar).map_err(ConfigError::from)?.is_empty() {
                 } else {
                     return Err(ConfigError::EnvNotSet(envvar.clone()).into());
                 }

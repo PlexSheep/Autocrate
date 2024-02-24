@@ -2,14 +2,14 @@ use async_trait::async_trait;
 
 use super::ServerApi;
 use crate::{
-    config::{packages::PackageType, ApiType, Config},
+    config::{packages::PackageType, Config},
     error::*,
 };
 pub struct Github;
 
 #[async_trait]
 impl ServerApi for Github {
-    async fn init(&mut self, cfg: &Config) -> Result<()> {
+    async fn init(&mut self, _cfg: &Config) -> Result<()> {
         todo!()
     }
     async fn push_release(&mut self) -> Result<()> {
@@ -18,13 +18,13 @@ impl ServerApi for Github {
     async fn push_release_artifact(&mut self) -> Result<()> {
         todo!()
     }
-    async fn push_pkg(&mut self, pkg_type: PackageType) -> Result<()> {
+    async fn push_pkg(&mut self, _pkg_type: PackageType) -> Result<()> {
         todo!()
     }
 }
 
 impl Github {
-    pub async fn build(cfg: &Config) -> Result<Self> {
+    pub async fn build(_cfg: &Config) -> Result<Self> {
         todo!()
     }
 }
