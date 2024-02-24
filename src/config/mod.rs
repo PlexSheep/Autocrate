@@ -50,12 +50,16 @@ impl YamlConfigSection for Uses {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum Pass {
     /// pass specified as plainext
+    #[serde(alias = "pass_text")]
     Text(String),
     /// pass to be loaded from an env var
+    #[serde(alias = "pass_env")]
     Env(String),
     /// pass to be loaded from a file
+    #[serde(alias = "pass_file")]
     File(PathBuf),
 }
 impl Pass {
@@ -102,13 +106,14 @@ impl YamlConfigSection for ApiAuth {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Api {
+    #[serde(alias = "type")]
     pub server_type: ApiType,
     pub endpoint: Url,
     /// May be left empty if the Api does not need auth or the auth is part of the
     /// [endpoint](Api::endpoint) [Url].
     pub auth: Option<ApiAuth>,
     /// Name of the repository on the Git server, as git itself has no concept of repository name
-    pub repository: String
+    pub repository: String,
 }
 impl YamlConfigSection for Api {
     fn check(&self) -> Result<()> {

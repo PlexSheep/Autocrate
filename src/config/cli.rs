@@ -62,9 +62,11 @@ pub enum Commands {
         message: Option<Vec<String>>,
 
         /// generate and add a changelog
+        #[arg(short, long)]
         changelog: bool,
 
         /// publish after releasing
+        #[arg(short, long)]
         publish: bool,
     },
     /// Publish to a package registry
