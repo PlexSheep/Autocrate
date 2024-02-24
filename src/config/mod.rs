@@ -107,6 +107,8 @@ pub struct Api {
     /// May be left empty if the Api does not need auth or the auth is part of the
     /// [endpoint](Api::endpoint) [Url].
     pub auth: Option<ApiAuth>,
+    /// Name of the repository on the Git server, as git itself has no concept of repository name
+    pub repository: String
 }
 impl YamlConfigSection for Api {
     fn check(&self) -> Result<()> {

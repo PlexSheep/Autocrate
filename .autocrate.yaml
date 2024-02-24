@@ -15,6 +15,7 @@ api:
   github:
     type: github
     endpoint: https://github.com
+    repository: autocrate
     auth:
       user: PlexSheep
       pass:
@@ -22,6 +23,7 @@ api:
   cscherr:
     type: forgejo
     endpoint: https://git.cscherr.de
+    repository: autocrate
     auth:
       user: PlexSheep
       pass:

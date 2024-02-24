@@ -7,7 +7,7 @@ use autocrate::{
     error::*,
     publish::publish,
     release::release,
-    serverapi::init_servers,
+    serverapi::ApiCollection,
 };
 
 #[tokio::main]
@@ -20,10 +20,12 @@ async fn main() -> Result<()> {
             println!("{}", Changelog::build(&cfg)?);
         }
         Commands::Release { .. } => {
-            let mut apis = init_servers(&cfg).await?;
+            // TODO: check if repo is dirty and create a commit with a given option
+            let mut apis = ApiCollection::build(&cfg).await?;
             release(&cfg, &mut apis).await?;
         }
         Commands::Publish { .. } => {
+            // TODO: check if repo is dirty and create a commit with a given option
             publish(&cfg).await?;
         }
         Commands::Version {} => {

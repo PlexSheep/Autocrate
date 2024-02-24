@@ -41,7 +41,7 @@ impl ServerApi for Forgejo {
     async fn init(&mut self, _cfg: &Config) -> Result<()> {
         todo!()
     }
-    async fn push_release(&mut self, rc: &ReleaseContext) -> Result<()> {
+    async fn push_release(&mut self, rc: ReleaseContext) -> Result<()> {
         let raw_url = format!(
             "{}/api/v1/repos/{}/{}/releases",
             self.cfg.endpoint, rc.username, rc.repository
@@ -74,10 +74,11 @@ impl ServerApi for Forgejo {
             .map_err(ServerApiError::from)?;
         Ok(())
     }
-    async fn push_release_artifact(&mut self, _rc: &ReleaseContext) -> Result<()> {
+    async fn push_release_artifact(&mut self, _rc: ReleaseContext) -> Result<()> {
         todo!()
     }
-    async fn push_pkg(&mut self, _pc: &PublishContext) -> Result<()> {
+    async fn push_pkg(&mut self, _pc: PublishContext) -> Result<()> {
         todo!()
     }
+    fn get_cfg(&self) -> &Api {&self.cfg}
 }

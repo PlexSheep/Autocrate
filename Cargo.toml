@@ -25,6 +25,7 @@ async-trait = "0.1.77"
 # cargo = "0.76.0"
 clap = { version = "4.4.18", features = ["derive", "help"] }
 clap-verbosity-flag = "2.1.2"
+futures = "0.3.30"
 git2 = "0.18.1"
 libpt = { version = "0.3.11", features = ["log"] }
 reqwest = "0.11.24"

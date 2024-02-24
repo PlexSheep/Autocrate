@@ -14,15 +14,16 @@ impl ServerApi for Github {
     async fn init(&mut self, _cfg: &Config) -> Result<()> {
         todo!()
     }
-    async fn push_release(&mut self, _rc: &ReleaseContext) -> Result<()> {
+    async fn push_release(&mut self, _rc: ReleaseContext) -> Result<()> {
         todo!()
     }
-    async fn push_release_artifact(&mut self, _rc: &ReleaseContext) -> Result<()> {
+    async fn push_release_artifact(&mut self, _rc: ReleaseContext) -> Result<()> {
         todo!()
     }
-    async fn push_pkg(&mut self, _pc: &PublishContext) -> Result<()> {
+    async fn push_pkg(&mut self, _pc: PublishContext) -> Result<()> {
         todo!()
     }
+    fn get_cfg(&self) -> &Api {&self.cfg}
 }
 
 impl Github {
