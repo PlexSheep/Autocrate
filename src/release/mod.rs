@@ -22,6 +22,6 @@ pub async fn release(cfg: &Config, apis: &mut ApiCollection) -> Result<()> {
     Ok(())
 }
 
-async fn tag(cfg: &Config) -> Result<()> {
+async fn tag(_cfg: &Config) -> Result<()> {
     todo!()
 }
