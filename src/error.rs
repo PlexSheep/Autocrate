@@ -21,7 +21,7 @@ pub enum Error {
     #[error("Could not generate the changelog")]
     ChangelogError(#[from] ChangelogError),
     #[error("Server Api error")]
-    ServerApiError(#[from] ServerApiError)
+    ServerApiError(#[from] ServerApiError),
 }
 
 #[derive(Error, Debug)]
@@ -31,7 +31,7 @@ pub enum ServerApiError {
     #[error(transparent)]
     InvalidHeaderValue(#[from] reqwest::header::InvalidHeaderValue),
     #[error(transparent)]
-    ReqwestErr(#[from] reqwest::Error)
+    ReqwestErr(#[from] reqwest::Error),
 }
 
 #[derive(Error, Debug)]

@@ -1,12 +1,12 @@
 use crate::{
-    config::{packages::PackageType, Api, ApiType, Config},
+    config::{Api, Config},
     error::*,
     serverapi::{PublishContext, ReleaseContext, ServerApi},
 };
 use async_trait::async_trait;
 use reqwest::{
     header::{HeaderMap, HeaderValue},
-    Client, Method, Request, RequestBuilder, Url,
+    Client, Url,
 };
 
 pub struct Forgejo {
@@ -38,7 +38,7 @@ impl Forgejo {
 
 #[async_trait]
 impl ServerApi for Forgejo {
-    async fn init(&mut self, cfg: &Config) -> Result<()> {
+    async fn init(&mut self, _cfg: &Config) -> Result<()> {
         todo!()
     }
     async fn push_release(&mut self, rc: &ReleaseContext) -> Result<()> {
@@ -65,14 +65,19 @@ impl ServerApi for Forgejo {
             .client
             .post(url)
             .body(body)
-            .build().map_err(ServerApiError::from)?;
-        let response = self.client.execute(request).await.map_err(ServerApiError::from)?;
+            .build()
+            .map_err(ServerApiError::from)?;
+        let _response = self
+            .client
+            .execute(request)
+            .await
+            .map_err(ServerApiError::from)?;
         Ok(())
     }
-    async fn push_release_artifact(&mut self, rc: &ReleaseContext) -> Result<()> {
+    async fn push_release_artifact(&mut self, _rc: &ReleaseContext) -> Result<()> {
         todo!()
     }
-    async fn push_pkg(&mut self, pc: &PublishContext) -> Result<()> {
+    async fn push_pkg(&mut self, _pc: &PublishContext) -> Result<()> {
         todo!()
     }
 }

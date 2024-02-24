@@ -7,10 +7,10 @@ pub struct ReleaseContext {
     pub repository: String,
     pub text: String,
     pub tag: String,
-    pub commit_sig: String
+    pub commit_sig: String,
 }
 
-pub async fn release(cfg: &Config, apis: &mut ApiCollection) -> Result<()> {
+pub async fn release(cfg: &Config, _apis: &mut ApiCollection) -> Result<()> {
     // TODO: git tag
     // TODO: push to each server
 

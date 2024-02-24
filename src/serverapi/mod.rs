@@ -54,7 +54,7 @@ pub async fn init_servers(cfg: &Config) -> Result<ApiCollection> {
         }
     }
     for api in collection.iter_mut() {
-        api.init(&cfg).await?;
+        api.init(cfg).await?;
     }
     Ok(collection)
 }

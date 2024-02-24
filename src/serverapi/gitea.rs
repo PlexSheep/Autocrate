@@ -2,7 +2,7 @@ use async_trait::async_trait;
 
 use super::{PublishContext, ReleaseContext, ServerApi};
 use crate::{
-    config::{packages::PackageType, Api, ApiType, Config},
+    config::{Api, Config},
     error::*,
 };
 pub struct Gitea {
@@ -11,16 +11,16 @@ pub struct Gitea {
 
 #[async_trait]
 impl ServerApi for Gitea {
-    async fn init(&mut self, cfg: &Config) -> Result<()> {
+    async fn init(&mut self, _cfg: &Config) -> Result<()> {
         todo!()
     }
-    async fn push_release(&mut self, rc: &ReleaseContext) -> Result<()> {
+    async fn push_release(&mut self, _rc: &ReleaseContext) -> Result<()> {
         todo!()
     }
-    async fn push_release_artifact(&mut self, rc: &ReleaseContext) -> Result<()> {
+    async fn push_release_artifact(&mut self, _rc: &ReleaseContext) -> Result<()> {
         todo!()
     }
-    async fn push_pkg(&mut self, pc: &PublishContext) -> Result<()> {
+    async fn push_pkg(&mut self, _pc: &PublishContext) -> Result<()> {
         todo!()
     }
 }
