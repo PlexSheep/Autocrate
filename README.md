@@ -161,9 +161,17 @@ are still missing or experimental
 ## Contributing
 
 I'd be very happy to get contributions! Although the master repository is on
-my self hosted git server, you're free to create issues, PRs and so on on
-GitHub. If enough activity comes around, moving to GitHub Codeberg might be a 
+my self hosted git server, you're free to create issues, PRs and so on
+GitHub. If enough activity comes around, moving to GitHub Codeberg might be a
 good idea.
 
 If you have any questions, use issues and discussions tabs or write me an email
 to [software@cscherr.de](mailto:software@cscherr.de)
+
+## Security
+
+If you find a security issue with this repository, it would be best if you sent
+me a mail to [software@cscherr.de](mailto:software@cscherr.de) or reported it on
+GitHub.
+
+See [`SECURITY`](SECURITY.md).
