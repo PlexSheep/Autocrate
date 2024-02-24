@@ -80,5 +80,7 @@ impl ServerApi for Forgejo {
     async fn push_pkg(&mut self, _pc: PublishContext) -> Result<()> {
         todo!()
     }
-    fn get_cfg(&self) -> &Api {&self.cfg}
+    fn get_cfg(&self) -> &Api {
+        &self.cfg
+    }
 }

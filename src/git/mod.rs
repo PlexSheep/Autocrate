@@ -1,5 +1,3 @@
-use git2;
-
 use crate::{config::Config, error::Result};
 
 pub async fn tag(_cfg: &Config) -> Result<String> {

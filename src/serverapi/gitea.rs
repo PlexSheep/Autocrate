@@ -23,7 +23,9 @@ impl ServerApi for Gitea {
     async fn push_pkg(&mut self, _pc: PublishContext) -> Result<()> {
         todo!()
     }
-    fn get_cfg(&self) -> &Api {&self.cfg}
+    fn get_cfg(&self) -> &Api {
+        &self.cfg
+    }
 }
 
 impl Gitea {
