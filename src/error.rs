@@ -1,4 +1,4 @@
-use std::{path::PathBuf, process::ExitStatus, string::FromUtf8Error};
+use std::{env::VarError, path::PathBuf, process::ExitStatus, string::FromUtf8Error};
 
 use anyhow;
 use thiserror::Error;
@@ -45,4 +45,8 @@ pub enum ConfigError {
     YamlApiAuthBothPass(ApiAuth),
     #[error("password provided as file, but does not exist: {0}")]
     PassFileDoesNotExist(PathBuf),
+    #[error("config requires environment variable {0}, but {0} is not set")]
+    EnvNotSet(String),
+    #[error("Bad value for environment variable: {0}")]
+    BadEnv(#[from] VarError),
 }

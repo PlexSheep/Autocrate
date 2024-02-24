@@ -16,11 +16,13 @@ api:
     type: github
     endpoint: https://github.com
     auth:
-      user: myUserName
-      pass: token_superimportantsecret
-  myserv:
-    type: gitea
+      user: PlexSheep
+      pass:
+        env: TOKEN_GH
+  cscherr:
+    type: forgejo
     endpoint: https://git.cscherr.de
     auth:
-      user: myUserName
-      pass: importantsecrettoken
+      user: PlexSheep
+      pass:
+        env: TOKEN_CSCHERR

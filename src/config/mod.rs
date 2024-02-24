@@ -9,8 +9,8 @@ use crate::error::*;
 
 pub mod cli;
 pub mod packages;
-use packages::*;
 use cli::Cli;
+use packages::*;
 
 pub trait YamlConfigSection: Debug + Clone + for<'a> Deserialize<'a> {
     fn check(&self) -> Result<()>;
@@ -51,24 +51,55 @@ impl YamlConfigSection for Uses {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+pub enum Pass {
+    /// pass specified as plainext
+    Text(String),
+    /// pass to be loaded from an env var
+    Env(String),
+    /// pass to be loaded from a file
+    File(PathBuf),
+}
+impl Pass {
+    /// Get the pass, extracting from the underlying source
+    fn get_pass(&self) -> Result<String> {
+        self.check()?;
+        Ok(match self {
+            Self::Text(pass) => pass.clone(),
+            Self::Env(key) => std::env::var(key).map_err(|err| ConfigError::from(err))?,
+            Self::File(file) => std::fs::read_to_string(file)?,
+        })
+    }
+}
+impl YamlConfigSection for Pass {
+    fn check(&self) -> Result<()> {
+        match self {
+            Self::Text(_) => (),
+            Self::Env(envvar) => {
+                if !std::env::var(envvar)
+                    .map_err(ConfigError::from)?
+                    .is_empty()
+                {
+                } else {
+                    return Err(ConfigError::EnvNotSet(envvar.clone()).into());
+                }
+            }
+            Self::File(file) => {
+                if !file.exists() {
+                    return Err(ConfigError::PassFileDoesNotExist(file.clone()).into());
+                }
+            }
+        };
+        Ok(())
+    }
+}
+#[derive(Debug, Clone, Deserialize)]
 pub struct ApiAuth {
     pub user: String,
-    pub pass: Option<String>,
-    pub pass_file: Option<PathBuf>,
+    pub pass: Pass,
 }
 impl YamlConfigSection for ApiAuth {
     fn check(&self) -> Result<()> {
-        if self.pass.is_some() && self.pass_file.is_some() {
-            let err = ConfigError::YamlApiAuthBothPass(self.clone()).into();
-            error!("{err}");
-            return Err(err);
-        }
-        if self.pass_file.is_some() {
-            let file = self.pass_file.clone().unwrap();
-            if !file.exists() {
-                return Err(ConfigError::PassFileDoesNotExist(file).into());
-            }
-        }
+        self.pass.check()?;
         Ok(())
     }
 }

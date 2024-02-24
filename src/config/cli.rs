@@ -38,6 +38,7 @@ pub struct Cli {
 #[derive(Debug, Clone, Subcommand)]
 pub enum Commands {
     Changelog {},
+    /// Create a new release on the server
     Release {
         // FIXME: allow taking a message like this:
         // `autocrate changelog -m arg1 arg2 arg3`
@@ -55,15 +56,26 @@ pub enum Commands {
         //
         // TODO:
         // integrate a CHANGELOG.md file
+        //
+        /// Message body of the release
         #[arg(short, long)]
         message: Option<Vec<String>>,
+
+        /// generate and add a changelog
+        changelog: bool,
+
+        /// publish after releasing
+        publish: bool,
     },
+    /// Publish to a package registry
     Publish {
         // see Commands::Release { message }
         #[arg(short, long)]
         message: Option<Vec<String>>,
     },
+    ///
     Version {},
+    Init {},
 }
 
 impl Display for Commands {
@@ -76,6 +88,7 @@ impl Display for Commands {
                 Self::Release { .. } => "Release",
                 Self::Publish { .. } => "Publish",
                 Self::Version { .. } => "Version",
+                Self::Init { .. } => "Init",
             }
         )
     }

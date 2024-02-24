@@ -65,21 +65,24 @@ locally, making it readily accessible through your command line interfaces.
 Create a YAML file named `.autocrate.yml` (or `.yaml`) in the root of your Git
 repository. It should contain the following parameters (replace the placeholders):
 
-| Parent          | Key          | Value                                                                            | Explanation                                                                  |
-|-----------------|--------------|----------------------------------------------------------------------------------|------------------------------------------------------------------------------|
-| (root)          | `changelog`  | list of keys with this as parent (`git-log` etc)                                 | information on how a changelog is generated                                  |
-| `changelog`     | `enable`     | `true`/`false`                                                                   | If false, no changelog will be generated                                     |
-| `changelog`     | `git-log`    | `true`/`false`                                                                   | should a changelog be generated with `git log`?                              |
-| (root)          | `uses`       | list of keys with this as parent (`cargo` etc)                                   | Marks features to be used by Autocrate                                       |
-| `uses`          | `cargo`      | list of keys with this as parent (`publish` etc)                                 | tells us that your project uses cargo                                        |
-| `cargo`         | `publish`    | `true`/`false`                                                                   | should we publish crates?                                                    |
-| `cargo`         | `registries` | registries see [this](https://doc.rust-lang.org/cargo/reference/registries.html) | A list of registries we should publish to. If empty defaults to `crates.io`. |
-| (root)          | `api`        | list of names, which each have the same keys                                     | defines the api we talk to                                                   |
-| `api.NAME`      | `type`       | one of `gitea`,`github`,`gitlab` (currently only support for `gitea`             | Let's us know which api type we are talking to                               |
-| `api.NAME`      | `endpoint`   | Base URL of the target server                                                    | Let's us know which api type we are talking to                               |
-| `api.NAME`      | `auth`       | list of keys with this as parent (`user` and `pass`)                             | We probably need authentication on the target server                         |
-| `api.NAME.auth` | `user`       | a string                                                                         | Which user should we try to authenticate as                                  |
-| `api.NAME.auth` | `pass`       | a string                                                                         | A secret for authentication o the server, probably a token                   |
+| Parent               | Key          | Value                                                                            | Explanation                                                                  |
+|----------------------|--------------|----------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| (root)               | `changelog`  | list of keys with this as parent (`git-log` etc)                                 | information on how a changelog is generated                                  |
+| `changelog`          | `enable`     | `true`/`false`                                                                   | If false, no changelog will be generated                                     |
+| `changelog`          | `git-log`    | `true`/`false`                                                                   | should a changelog be generated with `git log`?                              |
+| (root)               | `uses`       | list of keys with this as parent (`cargo` etc)                                   | Marks features to be used by Autocrate                                       |
+| `uses`               | `cargo`      | list of keys with this as parent (`publish` etc)                                 | tells us that your project uses cargo                                        |
+| `cargo`              | `publish`    | `true`/`false`                                                                   | should we publish crates?                                                    |
+| `cargo`              | `registries` | registries see [this](https://doc.rust-lang.org/cargo/reference/registries.html) | A list of registries we should publish to. If empty defaults to `crates.io`. |
+| (root)               | `api`        | list of names, which each have the same keys                                     | defines the api we talk to                                                   |
+| `api.NAME`           | `type`       | one of `gitea`,`github`,`gitlab` (currently only support for `gitea`             | Let's us know which api type we are talking to                               |
+| `api.NAME`           | `endpoint`   | Base URL of the target server                                                    | Let's us know which api type we are talking to                               |
+| `api.NAME`           | `auth`       | list of keys with this as parent (`user` and `pass`)                             | We probably need authentication on the target server                         |
+| `api.NAME.auth`      | `user`       | a string                                                                         | Which user should we try to authenticate as                                  |
+| `api.NAME.auth`      | `pass`       | contains either of `text`, `env` or `file`                                       | sets the secret for authentication with this server                          |
+| `api.NAME.auth.pass` | `text`       | a authentication pass as clear text                                              | A secret for authentication of the server, probably a token                   |
+| `api.NAME.auth.pass` | `env`        | env var which contains the token                                                 | A secret for authentication of the server, probably a token                   |
+| `api.NAME.auth.pass` | `file`       | file var which contains the token                                                | A secret for authentication of the server, probably a token                   |
 
 An example `.autocrate.yaml` could look like this:
 
@@ -102,13 +105,15 @@ api:
     endpoint: https://github.com
     auth:
       user: PlexSheep
-      pass: token_superimportantsecret
+      pass:
+        text: token_superimportantsecret
   cscherr:
     type: gitea
     endpoint: https://git.cscherr.de
     auth:
       user: PlexSheep
-      pass: Bearer importantsecrettoken
+      pass:
+        file: secrettoken.txt
 ```
 
 After Autocrate has been bootstrapped, you it will be released and published

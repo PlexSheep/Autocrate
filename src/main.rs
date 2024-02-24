@@ -32,6 +32,10 @@ async fn main() -> Result<()> {
             // TODO: version select automated
             todo!()
         }
+        Commands::Init { .. } => {
+            // TODO: create a basic autocrate yaml
+            todo!()
+        }
     };
     Ok(())
 }

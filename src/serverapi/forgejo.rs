@@ -15,9 +15,13 @@ impl ServerApi for Forgejo {
     async fn push_release(&mut self) -> Result<()> {
         todo!()
     }
+    async fn push_release_artifact(&mut self) -> Result<()> {
+        todo!()
+    }
     async fn push_pkg(&mut self, pkg_type: PackageType) -> Result<()> {
         todo!()
     }
+    
 }
 
 impl Forgejo {
