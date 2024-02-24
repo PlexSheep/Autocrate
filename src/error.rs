@@ -20,6 +20,18 @@ pub enum Error {
     SerdeYaml(#[from] serde_yaml::Error),
     #[error("Could not generate the changelog")]
     ChangelogError(#[from] ChangelogError),
+    #[error("Server Api error")]
+    ServerApiError(#[from] ServerApiError)
+}
+
+#[derive(Error, Debug)]
+pub enum ServerApiError {
+    #[error(transparent)]
+    ParseUrl(#[from] url::ParseError),
+    #[error(transparent)]
+    InvalidHeaderValue(#[from] reqwest::header::InvalidHeaderValue),
+    #[error(transparent)]
+    ReqwestErr(#[from] reqwest::Error)
 }
 
 #[derive(Error, Debug)]

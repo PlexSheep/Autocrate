@@ -2,10 +2,12 @@ use async_trait::async_trait;
 
 use super::ServerApi;
 use crate::{
-    config::{packages::PackageType, ApiType, Config},
+    config::{packages::PackageType, Api, ApiType, Config},
     error::*,
 };
-pub struct Gitlab;
+pub struct Gitlab {
+    cfg: Api,
+}
 
 #[async_trait]
 impl ServerApi for Gitlab {
@@ -24,7 +26,7 @@ impl ServerApi for Gitlab {
 }
 
 impl Gitlab {
-    pub async fn build(cfg: &Config) -> Result<Self> {
-        todo!()
+    pub async fn build(api: &Api) -> Result<Self> {
+        Ok(Self { cfg: api.clone() })
     }
 }

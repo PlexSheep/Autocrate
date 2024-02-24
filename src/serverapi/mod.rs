@@ -1,4 +1,5 @@
 use async_trait::async_trait;
+use reqwest::ClientBuilder;
 
 use crate::{
     config::{packages::PackageType, ApiType, Config},
@@ -14,6 +15,7 @@ use gitea::*;
 use github::*;
 use gitlab::*;
 
+pub static USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"),);
 pub type ApiCollection = Vec<Box<dyn ServerApi>>;
 
 // NOTE: in stable rust, traits can normally not contain async methods,
@@ -27,21 +29,25 @@ pub trait ServerApi {
     async fn push_pkg(&mut self, pkg_type: PackageType) -> Result<()>;
 }
 
+pub fn client_builder() -> ClientBuilder {
+    ClientBuilder::new().user_agent(USER_AGENT)
+}
+
 pub async fn init_servers(cfg: &Config) -> Result<ApiCollection> {
     let mut collection: ApiCollection = ApiCollection::new();
     for api in &cfg.yaml.api {
         match api.1.server_type {
             ApiType::Gitea => {
-                collection.push(Box::new(Gitea::build(cfg).await?));
+                collection.push(Box::new(Gitea::build(api.1).await?));
             }
             ApiType::Gitlab => {
-                collection.push(Box::new(Gitlab::build(cfg).await?));
+                collection.push(Box::new(Gitlab::build(api.1).await?));
             }
             ApiType::Github => {
-                collection.push(Box::new(Github::build(cfg).await?));
+                collection.push(Box::new(Github::build(api.1).await?));
             }
             ApiType::Forgejo => {
-                collection.push(Box::new(Forgejo::build(cfg).await?));
+                collection.push(Box::new(Forgejo::build(api.1).await?));
             }
         }
     }

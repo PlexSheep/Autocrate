@@ -61,7 +61,7 @@ pub enum Pass {
 }
 impl Pass {
     /// Get the pass, extracting from the underlying source
-    fn get_pass(&self) -> Result<String> {
+    pub fn get_pass(&self) -> Result<String> {
         self.check()?;
         Ok(match self {
             Self::Text(pass) => pass.clone(),
