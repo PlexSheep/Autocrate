@@ -2,8 +2,10 @@ use async_trait::async_trait;
 use reqwest::ClientBuilder;
 
 use crate::{
-    config::{packages::PackageType, ApiType, Config},
+    config::{ApiType, Config},
     error::*,
+    publish::PublishContext,
+    release::ReleaseContext,
 };
 
 pub mod forgejo;
@@ -24,9 +26,9 @@ pub type ApiCollection = Vec<Box<dyn ServerApi>>;
 #[async_trait]
 pub trait ServerApi {
     async fn init(&mut self, cfg: &Config) -> Result<()>;
-    async fn push_release(&mut self) -> Result<()>;
-    async fn push_release_artifact(&mut self) -> Result<()>;
-    async fn push_pkg(&mut self, pkg_type: PackageType) -> Result<()>;
+    async fn push_release(&mut self, rc: &ReleaseContext) -> Result<()>;
+    async fn push_release_artifact(&mut self, rc: &ReleaseContext) -> Result<()>;
+    async fn push_pkg(&mut self, pc: &PublishContext) -> Result<()>;
 }
 
 pub fn client_builder() -> ClientBuilder {
@@ -50,6 +52,9 @@ pub async fn init_servers(cfg: &Config) -> Result<ApiCollection> {
                 collection.push(Box::new(Forgejo::build(api.1).await?));
             }
         }
+    }
+    for api in collection.iter_mut() {
+        api.init(&cfg).await?;
     }
     Ok(collection)
 }

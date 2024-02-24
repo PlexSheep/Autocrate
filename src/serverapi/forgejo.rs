@@ -1,11 +1,12 @@
-use super::ServerApi;
 use crate::{
     config::{packages::PackageType, Api, ApiType, Config},
     error::*,
+    serverapi::{PublishContext, ReleaseContext, ServerApi},
 };
 use async_trait::async_trait;
 use reqwest::{
-    header::{HeaderMap, HeaderValue}, Client, Method, Request, RequestBuilder, Url
+    header::{HeaderMap, HeaderValue},
+    Client, Method, Request, RequestBuilder, Url,
 };
 
 pub struct Forgejo {
@@ -40,30 +41,38 @@ impl ServerApi for Forgejo {
     async fn init(&mut self, cfg: &Config) -> Result<()> {
         todo!()
     }
-    async fn push_release(&mut self) -> Result<()> {
+    async fn push_release(&mut self, rc: &ReleaseContext) -> Result<()> {
         let raw_url = format!(
-            "{}/api/v1/repos/{user}/{repository}/releases",
-            self.cfg.endpoint
+            "{}/api/v1/repos/{}/{}/releases",
+            self.cfg.endpoint, rc.username, rc.repository
         );
-        let body = format!(r#"
+        let url = Url::parse(&raw_url).map_err(ServerApiError::from)?;
+        let body = format!(
+            r#"
         {{
-            "body": "{text}",
-            "draft": {draft},
-            "name": "{name}",
-            "prerelease": {prerelease},
-            "tag_name": "{tag}",
-            "target_commitish": "{commit_sig}"
+            "body": "{}",
+            "draft": {},
+            "name": "{}",
+            "prerelease": {},
+            "tag_name": "{}",
+            "target_commitish": "{}"
         }}
-        "#);
+        "#,
+            rc.text, rc.draft, rc.tag, rc.prerelease, rc.tag, rc.commit_sig
+        );
 
-        let request = self.client.post().body(body).build()?;
-        let response = self.client.execute(request).await?;
+        let request = self
+            .client
+            .post(url)
+            .body(body)
+            .build().map_err(ServerApiError::from)?;
+        let response = self.client.execute(request).await.map_err(ServerApiError::from)?;
         Ok(())
     }
-    async fn push_release_artifact(&mut self) -> Result<()> {
+    async fn push_release_artifact(&mut self, rc: &ReleaseContext) -> Result<()> {
         todo!()
     }
-    async fn push_pkg(&mut self, pkg_type: PackageType) -> Result<()> {
+    async fn push_pkg(&mut self, pc: &PublishContext) -> Result<()> {
         todo!()
     }
 }

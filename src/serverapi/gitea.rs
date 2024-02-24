@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 
-use super::ServerApi;
+use super::{PublishContext, ReleaseContext, ServerApi};
 use crate::{
     config::{packages::PackageType, Api, ApiType, Config},
     error::*,
@@ -14,13 +14,13 @@ impl ServerApi for Gitea {
     async fn init(&mut self, cfg: &Config) -> Result<()> {
         todo!()
     }
-    async fn push_release(&mut self) -> Result<()> {
+    async fn push_release(&mut self, rc: &ReleaseContext) -> Result<()> {
         todo!()
     }
-    async fn push_release_artifact(&mut self) -> Result<()> {
+    async fn push_release_artifact(&mut self, rc: &ReleaseContext) -> Result<()> {
         todo!()
     }
-    async fn push_pkg(&mut self, pkg_type: PackageType) -> Result<()> {
+    async fn push_pkg(&mut self, pc: &PublishContext) -> Result<()> {
         todo!()
     }
 }

@@ -1,18 +1,22 @@
 use crate::{config::Config, error::*, serverapi::ApiCollection};
 
+pub struct ReleaseContext {
+    pub draft: bool,
+    pub prerelease: bool,
+    pub username: String,
+    pub repository: String,
+    pub text: String,
+    pub tag: String,
+    pub commit_sig: String
+}
+
 pub async fn release(cfg: &Config, apis: &mut ApiCollection) -> Result<()> {
     // TODO: git tag
     // TODO: push to each server
 
     // TODO: release to each server
     tag(cfg).await?;
-    for api in apis.iter_mut() {
-        api.push_release().await?;
-    }
-
-    for api in apis.iter_mut() {
-        api.push_release().await?;
-    }
+    todo!();
 
     // TODO: check that the release is made
     // TODO: generate artifacts
