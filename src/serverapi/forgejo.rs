@@ -25,7 +25,7 @@ impl Forgejo {
                 "Authorization",
                 // HeaderValue::from_str(api.auth.clone().unwrap().pass.get_pass()?.as_str())
                 //     .map_err(ServerApiError::from)?,
-                HeaderValue::from_str("hardcoded").map_err(ServerApiError::from)?
+                HeaderValue::from_str("hardcoded").map_err(ServerApiError::from)?,
             );
         }
         let client = super::client_builder()

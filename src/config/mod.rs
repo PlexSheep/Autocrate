@@ -1,4 +1,6 @@
-use std::{collections::HashMap, fmt::Debug, fs::File, io::BufReader, path::PathBuf, process::Command};
+use std::{
+    collections::HashMap, fmt::Debug, fs::File, io::BufReader, path::PathBuf, process::Command,
+};
 
 use git2;
 use libpt::log::{debug, error, trace};
@@ -160,7 +162,11 @@ impl Version {
         match self {
             Self::Text(ver) => ver.clone(),
             Self::Cmd(shell_command) => {
-                match Command::new("/bin/bash").arg("-c").arg(shell_command).output() {
+                match Command::new("/bin/bash")
+                    .arg("-c")
+                    .arg(shell_command)
+                    .output()
+                {
                     Ok(output) => {
                         // TODO: check status
                         String::from_utf8(output.stdout).unwrap()
@@ -169,7 +175,7 @@ impl Version {
                         panic!("{err:?}");
                     }
                 }
-            },
+            }
             Self::Cargo => todo!(),
         }
     }

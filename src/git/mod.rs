@@ -34,7 +34,7 @@ pub async fn tag(cfg: &Config) -> Result<git2::Tag> {
     Ok(tag)
 }
 
-pub async fn push(cfg: &Config) -> Result<()> {
+pub async fn push(_cfg: &Config) -> Result<()> {
     // TODO: error handling
     // TODO: maybe using git as lib is fancier?
     Command::new("git").arg("push").status().unwrap();
