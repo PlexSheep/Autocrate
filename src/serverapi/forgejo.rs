@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 use crate::{
     config::{Api, Config},
     error::*,
@@ -21,8 +23,9 @@ impl Forgejo {
         if api.auth.is_some() {
             let _ = headers.insert(
                 "Authorization",
-                HeaderValue::from_str(api.auth.clone().unwrap().pass.get_pass()?.as_str())
-                    .map_err(ServerApiError::from)?,
+                // HeaderValue::from_str(api.auth.clone().unwrap().pass.get_pass()?.as_str())
+                //     .map_err(ServerApiError::from)?,
+                HeaderValue::from_str("hardcoded").map_err(ServerApiError::from)?
             );
         }
         let client = super::client_builder()
@@ -39,7 +42,7 @@ impl Forgejo {
 #[async_trait]
 impl ServerApi for Forgejo {
     async fn init(&mut self, _cfg: &Config) -> Result<()> {
-        todo!()
+        Ok(())
     }
     async fn push_release(&mut self, rc: ReleaseContext) -> Result<()> {
         let raw_url = format!(

@@ -19,7 +19,8 @@ pub struct ReleaseContext {
 }
 
 pub async fn release(cfg: &Config, apis: &mut ApiCollection) -> Result<()> {
-    let tag: String = tag(cfg).await?;
+    // TODO: Error handling
+    let tag = tag(cfg).await?.name().unwrap().to_string();
     let commit_sig = get_commit_sig(cfg).await?;
     push(cfg).await?; // we assume that we only need to push the current branch to the singular
                       // remote, expecting that the repositories are somehow mirrored

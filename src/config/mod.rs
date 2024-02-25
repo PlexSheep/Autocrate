@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fmt::Debug, fs::File, io::BufReader, path::PathBuf};
+use std::{collections::HashMap, fmt::Debug, fs::File, io::BufReader, path::PathBuf, process::Command};
 
 use git2;
 use libpt::log::{debug, error, trace};
@@ -147,15 +147,63 @@ impl YamlConfigSection for ApiType {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum Version {
+    Text(String),
+    Cmd(String),
+    Cargo,
+}
+
+impl Version {
+    pub fn get_version(&self) -> String {
+        // TODO: Error handling
+        match self {
+            Self::Text(ver) => ver.clone(),
+            Self::Cmd(shell_command) => {
+                match Command::new("/bin/bash").arg("-c").arg(shell_command).output() {
+                    Ok(output) => {
+                        // TODO: check status
+                        String::from_utf8(output.stdout).unwrap()
+                    }
+                    Err(err) => {
+                        panic!("{err:?}");
+                    }
+                }
+            },
+            Self::Cargo => todo!(),
+        }
+    }
+}
+
+impl YamlConfigSection for Version {
+    fn check(&self) -> Result<()> {
+        match self {
+            Self::Text(_) => (),
+            Self::Cmd(_cmd) => {
+                // TODO: get the version with a command
+                todo!("verion from cmd not implemented")
+            }
+            Self::Cargo => {
+                // TODO: get the version as specified in a Cargo.toml
+                todo!("verion from cargo not implemented")
+            }
+        }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
 pub struct YamlConfig {
     pub changelog: Changelog,
     pub uses: Uses,
     pub api: HashMap<String, Api>,
+    pub version: Version,
 }
 impl YamlConfigSection for YamlConfig {
     fn check(&self) -> Result<()> {
         self.changelog.check()?;
         self.uses.check()?;
+        self.version.check()?;
         for api in self.api.values() {
             api.check()?;
         }
