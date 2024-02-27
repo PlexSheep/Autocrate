@@ -1,6 +1,6 @@
 [package]
 name = "autocrate"
-version = "0.1.0-prealpha.2"
+version = "0.1.0-prealpha.3"
 edition = "2021"
 publish = true
 authors = ["Christoph J. Scherr <software@cscherr.de>"]
